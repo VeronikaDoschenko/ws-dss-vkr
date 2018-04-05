@@ -1,0 +1,66 @@
+<h1>Выбор задания</h1>
+<hr>
+
+<p>
+	<%= link_to 'Настройка', tasks_path %> 
+	<%= link_to 'Критерии', criteria_path %>
+</p>
+
+<p>
+<h2>Задачи</h2>
+   <%= form_for :tasks, url: { action: 'new' } do |f| %>
+		        <%= f.submit('Новая задача') %>
+    <% end %>
+</p>
+
+<table>
+	<% @tasks.each do |t| %>
+		<tr>
+		    <td><%= t.name %></td>
+		    <td><%= link_to 'Выбрать', task_path(t) %></td>
+		    <td><%= link_to 'Исправить', edit_task_path(t) %></td>
+		    <td><%= link_to 'Удалить', task_path(t), method: :delete %></td>
+		 </tr>
+	<% end %>
+</table>
+
+<!--
+<table border="1" align="left" cellspacing="0" cellpadding="10">
+	<tr>
+		<td height="100" align="center" bgcolor="grey" width="200"> 
+		<%= link_to 'Настройка', tasks_path %>  
+		</td>
+
+		<td rowspan="2" height="100" width="600">
+		    
+		    <h2>Задачи</h2>
+		    
+
+		    <%= form_for :tasks, url: { action: 'new' } do |f| %>
+		        <%= f.submit('Новая задача') %>
+		    <% end %>
+		    
+
+		    <table>
+		    	<% @tasks.each do |t| %>
+		    	    <tr>
+		    	    	<td><%= t.name %></td>
+		    	    	<td><%= link_to 'Выбрать', task_path(t) %></td>
+		    	    	<td><%= link_to 'Исправить', edit_task_path(t) %></td>
+		    	    	<td><%= link_to 'Удалить', task_path(t), method: :delete %></td>
+		    	    </tr>
+		    	<% end %>
+		    </table>
+		   
+		</td>
+	</tr>
+
+	<tr>
+		<td height="500" align="center" bgcolor="lightgrey" width="200">
+		<%= link_to 'Критерии', criteria_path %>
+		</td>
+
+	</tr>
+</table>
+
+-->

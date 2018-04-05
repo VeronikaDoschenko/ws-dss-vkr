@@ -1,0 +1,15 @@
+<h1>Добавление задачи</h1>
+
+<%= form_with model: @task, local: true do |form| %>
+
+<p>
+	<%= form.text_area :name %>
+</p>
+
+<p>
+    <%= form.submit('Добавить') %>
+</p>
+
+<% end %>
+
+<%= link_to 'Назад', tasks_path %>

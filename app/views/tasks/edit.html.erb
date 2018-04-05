@@ -1,0 +1,15 @@
+<h1>Изменить задачу</h1>
+
+<%= form_with model: @task, local: true do |form| %>
+
+<p>
+	<%= form.text_area :name %>
+</p>
+
+<p>
+	<%= form.submit('Изменить') %>
+</p>
+
+<% end %>
+
+<%= link_to 'Назад', tasks_path %>

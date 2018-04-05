@@ -1,0 +1,2 @@
+class WsMethod < ApplicationRecord
+end

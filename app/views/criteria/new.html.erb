@@ -1,0 +1,42 @@
+<h1>Параметры критерия</h1>
+
+<%= form_with model: @criterium, local: true do |form| %>
+
+<p>
+    Наименование
+	<%= form.text_field :name %>
+</p>
+
+<p>
+    Описание
+	<%= form.text_area :description %>
+</p>
+
+<p>
+    Родитель
+</p>
+
+<p>
+    <header>Шкала</header>
+</p>
+
+<p>
+    <header>Направление улучшений</header>
+</p>
+
+<p>
+    <header>Числовой показатель</header>
+</p>
+
+<p>
+    <header>Порядковый номер</header>
+</p>
+
+<p>
+    <%= form.submit('Добавить') %>
+    
+</p>
+
+<% end %>
+
+<%= link_to 'Отмена', criteria_path %>

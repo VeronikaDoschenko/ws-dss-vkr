@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  task: one
+  description: MyText
+  name: MyString
+  criterium: one
+  rank: 9.99
+  ismin: 1
+  idealvalue: 9.99
+  ws_method: one
+  ord: 1
+
+two:
+  task: two
+  description: MyText
+  name: MyString
+  criterium: two
+  rank: 9.99
+  ismin: 1
+  idealvalue: 9.99
+  ws_method: two
+  ord: 1

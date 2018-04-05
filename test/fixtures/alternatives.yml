@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  task: one
+  name: MyString
+  rank: 9.99
+
+two:
+  task: two
+  name: MyString
+  rank: 9.99

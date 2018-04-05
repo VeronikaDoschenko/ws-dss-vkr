@@ -1,0 +1,15 @@
+<h1>Редактор критериев</h1>
+<hr>
+
+<p>
+	<%= link_to 'Настройка', tasks_path %> 
+	<%= link_to 'Критерии', criteria_path %>
+</p>
+
+<h2>Деверо критериев</h2>
+<%= form_for :criteria, url: { action: 'new' } do |f| %>
+		        <%= f.submit('Добавить критерий') %>
+		    <% end %>
+
+
+
