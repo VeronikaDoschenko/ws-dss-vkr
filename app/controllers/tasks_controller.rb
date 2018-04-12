@@ -16,7 +16,11 @@ class TasksController < ApplicationController
     end
 
 	def create
+
 		@task = Task.new(task_params)
+
+		/@ws_method = WsMethod.create(name: "Метод№2")/ 
+		/@crireria = Criteria.create task_id: @task.id, description: "gg",  name: "Корень", criterium: @task.id, rank: 0, ismin: 1, idealvalue: 0, method_id: 1, ord: 1/
 
 		if @task.save
 			redirect_to @task

@@ -6,10 +6,12 @@
 	<%= link_to 'Критерии', criteria_path %>
 </p>
 
-<h2>Деверо критериев</h2>
+<h2>Дерево критериев</h2>
 <%= form_for :criteria, url: { action: 'new' } do |f| %>
 		        <%= f.submit('Добавить критерий') %>
 		    <% end %>
+
+<%= collection_select(:criterium, :task_id, Task.all, :id, :name) %>
 
 
 

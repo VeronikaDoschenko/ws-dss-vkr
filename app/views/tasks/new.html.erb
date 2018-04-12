@@ -1,6 +1,6 @@
 <h1>Добавление задачи</h1>
 
-<%= form_with model: @task, local: true do |form| %>
+<%= form_for @task, url: {action: "create"} do |form| %>
 
 <p>
 	<%= form.text_area :name %>

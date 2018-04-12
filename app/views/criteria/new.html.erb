@@ -1,3 +1,295 @@
+<head>
+	<style>
+		.frame {
+			width: 700px; height: 100px;
+			background: /*#fc0*/white;
+			outline: 5px solid /*#000*/lightblue;
+			border: 10px solid /*#fff*/white; /*отступ от рамки*/
+			/*border-radius: 10px;*/
+		}
+
+		.name_crit {
+			width: 338px; height: 26px;
+			background: lightblue;
+			outline: 5px solid white;
+			border: 6px solid lightblue;
+			position: relative; /*может быть absolute*/
+			right: 180px;
+		}
+
+		.name_field {
+			width: 338px; height: 26px;
+			background: lightgrey;
+			outline: 5px solid white;
+			border: 6px solid lightgrey;
+			position: relative;
+			left: 180px;
+			top: -38px;
+		}
+
+		.description_crit {
+			width: 338px; height: 100px;
+			background: lightblue;
+			outline: 5px solid white;
+			border: 6px solid lightblue;
+			position: relative;
+			right: 180px;
+			top: -30px;
+		}
+
+		.descroption_area {
+			width: 338px; height: 100px;
+			background: lightgrey;
+			outline: 5px solid white;
+			border: 6px solid lightgrey;
+			position: relative;
+			right: -180px;
+			top: -142px;
+		}
+
+		.parent_crit {
+			width: 338px; height: 26px;
+			background: lightblue;
+			outline: 5px solid white;
+			border: 6px solid lightblue;
+			position: relative;
+			right: 180px;
+			top: -133px;
+		}
+
+		.parent_select {
+			width: 338px; height: 26px;
+			background: lightgrey;
+			outline: 5px solid white;
+			border: 6px solid lightgrey;
+			position: relative;
+			right: -180px;
+			top: -171px;
+		}
+
+		.scale {
+			width: 698px; height: 26px;
+			background: lightblue;
+			outline: 5px solid white;
+			border: 6px solid lightblue;
+			position: relative;
+			right: 5px;
+			top: -163px;
+		}
+
+		.scale_desc {
+			width: 698px; height: 26px;
+			background: lightgrey;
+			outline: 5px solid white;
+			border: 6px solid lightgrey;
+			position: relative;
+			right: 5px;
+			top: -159px;
+		}
+
+		.ismin_crit {
+			width: 338px; height: 26px;
+			background: lightblue;
+			outline: 5px solid white;
+			border: 6px solid lightblue;
+			position: relative;
+			right: 180px;
+			top: -150px;
+		}
+
+		.ismin_select {
+			width: 338px; height: 26px;
+			background: lightgrey;
+			outline: 5px solid white;
+			border: 6px solid lightgrey;
+			position: relative;
+			right: -180px;
+			top: -188px;
+		}
+
+		.numeric_crit {
+			width: 338px; height: 26px;
+			background: lightblue;
+			outline: 5px solid white;
+			border: 6px solid lightblue;
+			position: relative;
+			right: 180px;
+			top: -180px;
+
+		}
+
+		.numeric_checkbox {
+			width: 338px; height: 26px;
+			background: lightgrey;
+			outline: 5px solid white;
+			border: 6px solid lightgrey;
+			position: relative;
+			right: -180px;
+			top: -218px;
+		}
+
+		.ord_crit {
+			width: 338px; height: 26px;
+			background: lightblue;
+			outline: 5px solid white;
+			border: 6px solid lightblue;
+			position: relative;
+			right: 180px;
+			top: -210px;
+		}
+
+		.ord_field {
+			width: 338px; height: 26px;
+			background: lightgrey;
+			outline: 5px solid white;
+			border: 6px solid lightgrey;
+			position: relative;
+			right: -180px;
+			top: -248px;
+		}
+
+	</style>
+</head>
+<body>
+<div class="frame" align="center">
+	<h1>Параметры критерия</h1>
+
+	<%= form_for @criterium, url: {action: "create"} do |form| %>
+
+	<div class="name_crit" align="right">
+		Наименование
+	</div>
+
+	<div class="name_field" align="left">
+		<%= form.text_field :name %>
+	</div>
+
+	<div class="description_crit" align="right">
+		Описание
+	</div>
+
+	<div class="descroption_area" align="left">
+		<%= form.text_area :description, size: "45x6" %>
+	</div>
+
+	<div class="parent_crit" align="right">
+		Родитель
+	</div>
+
+	<div class="parent_select" align="left">
+		<%= form.collection_select(:criterium_id, Criterium.all, :id, :name) %>
+	</div>
+
+	<div class="scale">
+		Шкала
+	</div>
+
+	<div class="scale_desc">
+		Шкала не заполнена
+	</div>
+
+	<div class="ismin_crit" align="right">
+		Наравление улучшений
+	</div>
+
+	<div class="ismin_select" align="left">
+		<%= form.select(:ismin, [['Чем больше, тем лучше', 1],['Чем меньше, тем лучше', 2],['Идельное значение', 3]]) %>
+
+        <!--
+		<% if @criterium.ismin === 3 %>
+		<%= form.text_field :idealvalue, :readonly => false %>
+        <% else %>
+        <%= form.text_field :idealvalue, :readonly => true %>
+        <% end %>
+        -->
+	</div>
+
+	<div class="numeric_crit" align="right">
+		Числовой показатель
+	</div>
+
+	<div class="numeric_checkbox" align="left">
+		
+	</div>
+
+	<div class="ord_crit" align="right">
+		Порядковый номер
+	</div>
+
+	<div class="ord_field" align="left">
+		<%= form.text_field :ord %>
+	</div>
+
+
+	<%= form.submit('Добавить') %>
+
+
+	<% end %>
+
+	<%= link_to 'Отмена', criteria_path %>
+
+
+<!--
+<%= form_with model: @criterium, local: true do |form| %>
+
+<p>
+    Наименование
+	<%= form.text_field :name %>
+</p>
+
+<p>
+    Описание
+	<%= form.text_area :description %>
+</p>
+
+<p>
+    Родитель
+    <%= form.collection_select(:criterium_id, Criterium.all, :id, :name) %>
+</p>
+
+<p>
+    <header>Шкала</header>
+</p>
+
+<p>
+    Направление улучшений
+    <%= d = form.select(:ismin, [['Чем больше, тем лучше','1'],['Чем меньше, тем лучше','2'],['Идельное значение','3']]) %>
+</p>
+
+<p>
+    Идеальное значение
+
+    <% if d === 3 %>
+    <%= form.text_field :idealvalue, :readonly => true %>
+    <% else %>
+    <%= form.text_field :idealvalue, :readonly => false %>
+    <% end %>
+</p>
+
+<p>
+    Числовой показатель
+    
+</p>
+
+<p>
+    Порядковый номер
+    <%= form.text_field :ord %>
+</p>
+
+<p>
+    <%= form.submit('Добавить') %>
+    
+</p>
+
+<% end %>
+
+<%= link_to 'Отмена', criteria_path %>
+-->
+
+</div>
+</body>
+
+<!--
 <h1>Параметры критерия</h1>
 
 <%= form_with model: @criterium, local: true do |form| %>
@@ -14,6 +306,7 @@
 
 <p>
     Родитель
+    <%= form.collection_select(:criterium_id, Criterium.all, :id, :name) %>
 </p>
 
 <p>
@@ -21,15 +314,28 @@
 </p>
 
 <p>
-    <header>Направление улучшений</header>
+    Направление улучшений
+    <%= d = form.select(:ismin, [['Чем больше, тем лучше','1'],['Чем меньше, тем лучше','2'],['Идельное значение','3']]) %>
 </p>
 
 <p>
-    <header>Числовой показатель</header>
+    Идеальное значение
+
+    <% if d === 3 %>
+    <%= form.text_field :idealvalue, :readonly => true %>
+    <% else %>
+    <%= form.text_field :idealvalue, :readonly => false %>
+    <% end %>
 </p>
 
 <p>
-    <header>Порядковый номер</header>
+    Числовой показатель
+    
+</p>
+
+<p>
+    Порядковый номер
+    <%= form.text_field :ord %>
 </p>
 
 <p>
@@ -40,3 +346,22 @@
 <% end %>
 
 <%= link_to 'Отмена', criteria_path %>
+
+
+<head>
+	<meta charset="utf-8">
+	<title>border and otline</title>
+	<style>
+		div {
+			width: 100px; height: 100px;
+			background: /*#fc0*/lightblue;
+			outline: 2px solid #000;
+			border: 3px solid #fff;
+			border-radius: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div></div>
+</body>
+-->
