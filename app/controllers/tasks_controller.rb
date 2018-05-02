@@ -19,14 +19,21 @@ class TasksController < ApplicationController
 
 		@task = Task.new(task_params)
 
-		/@ws_method = WsMethod.create(name: "Метод№2")/ 
-		/@crireria = Criteria.create task_id: @task.id, description: "gg",  name: "Корень", criterium: @task.id, rank: 0, ismin: 1, idealvalue: 0, method_id: 1, ord: 1/
+		/@ws_method = WsMethod.create(name: "Метод№3")/
+		/@criterium = Criterium.create(task_id: @task.id, description: "Корень",  name: "Корень", criterium: @task.id, rank: 0, ismin: 0, idealvalue: 0, ws_method_id: 1, ord: 0)/
+
 
 		if @task.save
 			redirect_to @task
 		else
 			render 'new'
 		end
+
+		@root = Criterium.find(1) #общий родитель для всех коренных критериев
+		@ws_method_root = WsMethod.find(1) #WsMethod.first #выбрать отсутствие метода (под идентификатором 1)
+
+		@criterium = Criterium.create(task_id: @task.id, description: "Корень",  name: "Корень", criterium_id: @root.id, rank: 0, ismin: 0, idealvalue: 0, ws_method_id: @ws_method_root.id, ord: 0)
+
 	end
 
 	def update
@@ -42,7 +49,12 @@ class TasksController < ApplicationController
 	def destroy
 		@task = Task.find(params[:id])
 
+		@criterium = Criterium.find_by task_id: @task.id, rank: 0
+		@criterium.destroy #поиск и удаление корневого критерия по id задачи и рангу, равному 0
+
 		@task.destroy
+
+
 
 		redirect_to tasks_path
 	end

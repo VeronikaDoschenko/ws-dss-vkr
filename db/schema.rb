@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180405135803) do
+ActiveRecord::Schema.define(version: 20180425103408) do
 
   create_table "alternatives", force: :cascade do |t|
     t.integer "task_id"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20180405135803) do
     t.integer "criterium_id"
     t.decimal "rank"
     t.integer "ismin"
-    t.decimal "idealvalue"
+    t.decimal "idealvalue", default: "0.0"
     t.integer "ws_method_id"
     t.integer "ord"
     t.datetime "created_at", null: false

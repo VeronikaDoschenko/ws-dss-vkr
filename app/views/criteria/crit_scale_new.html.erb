@@ -1,0 +1,17 @@
+<h2>Параметры пункта шкалы оценки</h2>
+
+<%= form_tag(:controller => "criteria", :action => "crit_scale_create") do %>
+
+<div>
+	Текст
+	<%= text_field_tag :name %>
+</div>
+
+<div>
+	Ранг
+	<%= text_field_tag :rank %>
+</div>
+
+<%= submit_tag "Добавить" %>
+
+<% end %>

@@ -4,14 +4,33 @@
 <p>
 	<%= link_to 'Настройка', tasks_path %> 
 	<%= link_to 'Критерии', criteria_path %>
+	<%= link_to 'Альтернативы' %>
 </p>
 
 <h2>Дерево критериев</h2>
-<%= form_for :criteria, url: { action: 'new' } do |f| %>
-		        <%= f.submit('Добавить критерий') %>
-		    <% end %>
 
-<%= collection_select(:criterium, :task_id, Task.all, :id, :name) %>
+
+<%= button_to 'Добавить критерий', new_criterium_path %> 
+
+<%= form_tag(:controller => "criteria", :action => "num_of_task") do %>
+<span>
+	<%= collection_select(:criterium, :task_id, Task.all, :id, :name) %>
+
+	<%= submit_tag "Выбрать задачу" %>
+</span>
+<% end %>
+
+<table>
+	<% @criteria.each do |c| %>
+	    <tr>
+	    	<td><%= c.name %></td>
+	    	<td><%= link_to 'Выбрать', edit_criterium_path(c) %></td>
+	    </tr>
+	<% end %>
+</table>
+
+
+
 
 
 

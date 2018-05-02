@@ -151,16 +151,17 @@
 </head>
 <body>
 	<div class="frame" align="center">
+
 	    <h1>Параметры критерия</h1>
 
-        <%= form_tag(:controller => "criteria", :action => "create") do %>
+        <%= form_tag(:controller => "criteria", :action => "update") do %>
 
         <div class="name_crit" align="right">
 		    Наименование
 	    </div>
 
 	   	<div class="name_field" align="left">
-		    <%= text_field_tag :name %>
+		    <%= text_field_tag :name, @criterium.name %>
       	</div>
 
       	<div class="description_crit" align="right">
@@ -168,7 +169,7 @@
 	    </div>
 
 	    <div class="descroption_area" align="left">
-		<%=  text_area_tag :description, nil, size: "45x6"%>
+		<%=  text_area_tag :description, @criterium.description, size: "45x6"%>
 	    </div>
 
 	    <div class="parent_crit" align="right">
@@ -180,11 +181,18 @@
 	    </div>
 
 	    <div class="scale">
-		Шкала
+	    Шкала
+	    <%= link_to 'Добавить пункт шкалы', criteria_crit_scale_path %>
     	</div>
 
 	    <div class="scale_desc">
-		Шкала не заполнена
+	    Шкала не заполнена
+		<% @crit_scale.each do |c| %>
+			<%= c.name %>
+			<%= c.rank.to_i %>
+			<%= link_to 'Удалить', criteria_crit_scale_destroy_path(c) %>
+		<% end %>
+		
     	</div>
 
 	    <div class="ismin_crit" align="right">
@@ -208,7 +216,7 @@
 	    </div>
 
 	    <div class="ord_field" align="left">
-		<%= text_field_tag :ord  %>
+		<%= text_field_tag :ord, @criterium.ord  %>
 	    </div>
 
 	    <div>
@@ -216,18 +224,18 @@
 	    	<%= collection_select(:criterium, :ws_method_id, WsMethod.all, :id, :name) %>
 	    </div>
 
-	    <div>
-	    	Идеальное значение
-	    	<%= text_field_tag :idealvalue %>
+	    <div align="right">
+	    <%= link_to 'Удалить критерий', criterium_path(@criterium.id), method: :delete%>
 	    </div>
 
 
-      	<%= submit_tag "Добавить" %>
+      	<%= submit_tag "Сохранить" %>
  
         <% end %>
 
+        <div><%= link_to 'Отмена', criteria_path %></div>
 
-        <%= link_to 'Отмена', criteria_path %>
+        
 
 	</div>
 </body>
