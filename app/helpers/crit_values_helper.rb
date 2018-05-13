@@ -1,0 +1,2 @@
+module CritValuesHelper
+end

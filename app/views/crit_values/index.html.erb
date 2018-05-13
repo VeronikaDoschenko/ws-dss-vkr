@@ -1,0 +1,15 @@
+<h1>Значения критериев</h1>
+<hr>
+
+
+
+<table>
+	<% @critvalues.each do |c| %>
+	    <tr>
+	    	<td><%= c.name %></td>
+	    	<td><%= link_to 'Редактировать', edit_crit_value_path(c) %></td>
+	    </tr>
+	<% end %>
+</table>
+
+

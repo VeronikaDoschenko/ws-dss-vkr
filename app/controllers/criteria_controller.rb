@@ -8,6 +8,8 @@ class CriteriaController < ApplicationController
 		@criteria = Criterium.where("criterium_id != ?", 1)
 
 		#@criterium = Criterium.where("task_id = ?", params[:task_id])
+
+		
 		
 	end
 
@@ -36,6 +38,8 @@ class CriteriaController < ApplicationController
 		else
 			render 'new'
 		end
+
+
 	end
 
 	def update
@@ -110,6 +114,27 @@ class CriteriaController < ApplicationController
 	    end
 
 	private 
+
+
+
+	def crit_tree(taskid, rank)
+		res = ""
+		rank = rank + 1
+		crit_array = Criterium.where("rank = ? AND task_id = ?", rank, taskid).order(:ord)
+		crit_array.each do |cr|
+			res = "<li>#{cr.name}"
+			res << "<ul>"
+			res << crit_tree(taskid, rank)
+			res << "</ul>"
+			res << "</li>"
+		end
+		res
+	end
+
+    def tree(taskid, rank)
+    	"<ul>#{crit_tree(taskid, rank)}</ul>".html_safe
+    end
+
 
     
 end

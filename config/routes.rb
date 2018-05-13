@@ -28,4 +28,14 @@ Rails.application.routes.draw do
   post 'criteria/num_of_task' => 'criteria#num_of_task'
 
 
+  post 'alternatives/new'
+  resources :alternatives
+  post 'alternatives/:id' => 'alternatives#update'
+  post 'alternatives' => 'alternatives#task_num'
+
+
+
+  resources :crit_values
+
+
 end

@@ -1,0 +1,22 @@
+<h1>Новая альтернатива</h1>
+
+<%= form_tag(:controller => "alternatives", :action => "create") do %>
+
+<div>
+	Название
+	<%= text_field_tag :name %>
+</div>
+
+<div>
+	Задача
+	<%=  collection_select(:alternative, :task_id, Task.all, :id, :name) %>
+</div>
+
+<div>
+	Ранг
+	<%= text_field_tag :rank %>
+</div>
+
+<%= submit_tag "Добавить" %>
+
+<% end %>
