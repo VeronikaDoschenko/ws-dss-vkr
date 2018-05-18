@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  criteruim: one
+  criterium: one
   alternative: one
   crit_scale: one
   value: 9.99
 
 two:
-  criteruim: two
+  criterium: two
   alternative: two
   crit_scale: two
   value: 9.99

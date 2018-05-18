@@ -36,6 +36,7 @@ class TasksController < ApplicationController
 		@criterium = Criterium.new(task_id: @task.id, description: "Корень",  name: "Корень", criterium_id: 1, rank: 0, ismin: 0, idealvalue: 0, ws_method_id: 1, ord: 0)
 		@criterium.save
 
+
 	end
 
 	def update

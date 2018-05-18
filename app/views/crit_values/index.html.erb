@@ -1,16 +1,20 @@
 <h1>Значения критериев</h1>
 <hr>
 
-
-
 <table>
 	<% @criteria.each do |c| %>
 	<tr>
 		<td><%= c.name %></td>
 		<td><label> ; значение: </label></td>
-		<% if CritValue.take != nil %> 
-		<% val = CritValue.find_by criterium_id: c.id, alternative_id: params[:a] %>
-		<td><%= val %></td>
+
+		<% cr_value = CritValue.where(criterium_id: c.id, alternative_id: params[:a]).take %>
+		<% if cr_value != nil %>
+		    <% if cr_value.crit_scale_id != 1 %>
+		    <% cr_scale = CritScale.find(cr_value.crit_scale_id) %>
+		    <td><%= cr_scale.name %></td>
+		    <% else %>
+		    <td><%= cr_value.value %></td>
+		    <% end %>
 		<% else %>
 		<td><label>нет</label></td>
 		<% end %>
@@ -34,6 +38,9 @@
 	</tr>
 	<% end %>
 </table>
+
+<%= link_to 'Назад', alternatives_path %>
+
 
 
 
