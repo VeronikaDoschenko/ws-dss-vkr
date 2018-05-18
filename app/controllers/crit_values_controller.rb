@@ -4,21 +4,18 @@ class CritValuesController < ApplicationController
 
 		#@critvalues = CritValue.where(alternative_id: @alternative.id)
 
-		@critvalues = CritValue.all
-	end
+		#@critvalues = CritValue.all
 
-	def new
-		@critvalue = CritValue.new
+		@alternative = Alternative.find(params[:a])
+		@criteria = Criterium.where("task_id = ? AND rank != ?", @alternative.task_id, 0)
 	end
 
 	def create
-		@critvalue = CritValue.new(criterium_id: params[:critvalue][:criterium_id], alternative_id: params[:critvalue][:alternative_id], crit_scale_id: nil, value: params[:value])
+		@critvalue = CritValue.new(criterium_id: params[:c], alternative_id: params[:a], crit_scale_id: 1, value: 22)
 
+		@critvalue.save
 
-		if @critvalue.save
-	    	redirect_to crit_values_path
-		else
-			render 'new'
-		end
+		redirect_to crit_values_path(a: params[:a])
+		
 	end
 end

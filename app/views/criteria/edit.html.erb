@@ -177,12 +177,12 @@
 	    </div>
 
 	    <div class="parent_select" align="left">
-		<%=  collection_select(:criterium, :criterium_id, Criterium.where("task_id = ? AND id != ?", @num_of_task, 1), :id, :name) %>
+		<%=  collection_select(:criterium, :criterium_id, Criterium.where("task_id = ? AND id != ?", params[:t], 1), :id, :name) %>
 	    </div>
 
 	    <div class="scale">
 	    Шкала
-	    <%= link_to 'Добавить пункт шкалы', criteria_crit_scale_path %>
+	    <%= link_to 'Добавить пункт шкалы', criteria_crit_scale_path(c: @criterium.id) %>
     	</div>
 
 	    <div class="scale_desc">
@@ -232,7 +232,7 @@
         
         <div>
 	    	Идеальное значение
-	    	<%= text_field_tag :idealvalue %>
+	    	<%= text_field_tag :idealvalue, @criterium.idealvalue %>
 	    </div>
 
 
@@ -240,7 +240,7 @@
  
         <% end %>
 
-        <div><%= link_to 'Отмена', criteria_path %></div>
+        <div><%= link_to 'Отмена', criteria_path(t: params[:t]) %></div>
 
         
 

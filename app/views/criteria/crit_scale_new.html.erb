@@ -1,6 +1,6 @@
 <h2>Параметры пункта шкалы оценки</h2>
 
-<%= form_tag(:controller => "criteria", :action => "crit_scale_create") do %>
+<%= form_tag create_criteria_crit_scale_path(c: params[:c]) do %>
 
 <div>
 	Текст

@@ -5,7 +5,18 @@ class CriteriaController < ApplicationController
 		#@criteria = Criterium.all
 
         # не выводит "коренные" критерии
-		@criteria = Criterium.where("criterium_id != ?", 1)
+
+		if params[:t] # если параметр t определен
+			@task_num = params[:t] # передаем параметр t
+		else
+			task = Task.take # передаем первую запись из таблицы как параметры
+			@task_num = task.id
+		end 
+
+
+		@criteria = Criterium.where("criterium_id != ? AND task_id = ?", 1, @task_num)
+
+		#@task_num = params[:t]
 
 		#@criterium = Criterium.where("task_id = ?", params[:task_id])
 
@@ -16,25 +27,25 @@ class CriteriaController < ApplicationController
 	def new
 		@criterium = Criterium.new
 
-		@num_of_task = num_of_task #исправить!!! номер задачи, для которой добавляются критерии
+		@task_num = params[:t] #номер задачи, для которой добавляются критерии
 	end
 
 	def edit
 		@criterium = Criterium.find(params[:id])
 
-		@num_of_task = num_of_task
+		@task_num = params[:t]
 
-		@crit_scale = CritScale.where(criterium_id: num_of_crit).order(:rank)
+		@crit_scale = CritScale.where(criterium_id: @criterium).order(:rank)
 	end
 
 	def create
 
 		@parent_crit = Criterium.find(params[:criterium][:criterium_id])
 
-		@criterium = Criterium.new(task_id: num_of_task, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord])
+		@criterium = Criterium.new(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord])
 
 		if @criterium.save
-	    	redirect_to criteria_path #@criterium
+	    	redirect_to criteria_path(t: @parent_crit.task_id) #@criterium
 		else
 			render 'new'
 		end
@@ -47,8 +58,8 @@ class CriteriaController < ApplicationController
 
 		@criterium = Criterium.find(params[:id])
 
-		if @criterium.update(task_id: num_of_task, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: 0, ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord])
-			redirect_to criteria_path
+		if @criterium.update(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord])
+			redirect_to criteria_path(t: @parent_crit.task_id)
 		else
 			render 'edit'
 		end
@@ -56,6 +67,12 @@ class CriteriaController < ApplicationController
 
 	def destroy
 		@criterium = Criterium.find(params[:id])
+
+		@critscales = CritScale.where(criterium_id: @criterium.id)
+
+		@critscales.each do |cs|
+			cs.destroy
+		end
 
 		@criterium.destroy
 
@@ -69,10 +86,11 @@ class CriteriaController < ApplicationController
 	def crit_scale_create
 		#@crit = Criterium.find(1) #корневой критерий, который поменяется на созданный новый критерий
         # criterium_id не должен равняться 1, исправить!
-		@critscale = CritScale.new(criterium_id: num_of_crit, name: params[:name], rank: params[:rank])
+		@critscale = CritScale.new(criterium_id: params[:c], name: params[:name], rank: params[:rank])
 
 		if @critscale.save
-			redirect_to edit_criterium_path
+			@crit = Criterium.find(params[:c])
+			redirect_to edit_criterium_path(t: @crit.task_id)
 		else
 			render 'crit_scale_new'
 		end
@@ -82,26 +100,25 @@ class CriteriaController < ApplicationController
 		@critscale = CritScale.find(params[:id])
 
 		@crit = @critscale.criterium_id
+		@cr = Criterium.find(@crit)
+
 
 		@critscale.destroy
 
 
-		redirect_to edit_criterium_path(@crit)
+		redirect_to edit_criterium_path(@crit, t: @cr.task_id)
 	end
 
     #исправить!!! номер задачи, для которой добавляются критерии
-	def num_of_task
+	def task_num
+		@task = params[:criterium][:task_id]
+		redirect_to criteria_path(t: @task)
 
-		#@num_task = params[:criterium][:task_id]
-
-		return 87 #@num_task
+		#return @task #@num_task
 	end
 
 
-    #исправить!!! номер критерия, для которого выводится шкала
-	def num_of_crit
-		return 17
-	end
+   
 
 
 

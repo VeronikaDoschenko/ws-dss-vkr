@@ -4,12 +4,36 @@
 
 
 <table>
-	<% @critvalues.each do |c| %>
-	    <tr>
-	    	<td><%= c.name %></td>
-	    	<td><%= link_to 'Редактировать', edit_crit_value_path(c) %></td>
-	    </tr>
+	<% @criteria.each do |c| %>
+	<tr>
+		<td><%= c.name %></td>
+		<td><label> ; значение: </label></td>
+		<% if CritValue.take != nil %> 
+		<% val = CritValue.find_by criterium_id: c.id, alternative_id: params[:a] %>
+		<td><%= val %></td>
+		<% else %>
+		<td><label>нет</label></td>
+		<% end %>
+
+		<td>
+		<%= form_tag create_crit_value_path(c: c.id, a: params[:a]) do %>
+		<span>
+            <% if CritScale.where(criterium_id: c.id).take != nil %>
+            <%= collection_select(:crit_value, :crit_scale_id, CritScale.where(criterium_id: c.id), :id, :name) %>
+            <% else %>
+		    <%= text_field_tag :value %>
+            <% end %>
+
+			<%= submit_tag "Добавить" %>
+		</span>
+		<% end %>
+		</td>
+
+		<!--<td><%= button_to 'Добавить', {:onclick => 'new'}  %></td>
+		<td><%= text_field_tag :y %></td>-->
+	</tr>
 	<% end %>
 </table>
+
 
 

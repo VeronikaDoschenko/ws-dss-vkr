@@ -1,7 +1,13 @@
 class AlternativesController < ApplicationController
 	def index
-		@alternatives = Alternative.all #where(task_id: task_num)
+		#@alternatives = Alternative.where(task_id: params[:t]) # параметр t из url
 
+         # если параметр t не пустой
+		if params[:t]
+			@alternatives = Alternative.where(task_id: params[:t])
+		else
+			@alternatives = Alternative.all.order(:task_id).order(:rank)#все отсортированно по пренадлежности к задаче
+		end
 	end
 
 	def new
@@ -33,9 +39,10 @@ class AlternativesController < ApplicationController
 	end
 
 
-	#def task_num
-	#	return params[:alternative][:task_id]
-	#end
+	def task_num
+	  @task = params[:alternative][:task_id]
+	  redirect_to alternatives_path(t: @task)
+	end
 
 
 end

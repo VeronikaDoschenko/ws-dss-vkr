@@ -11,7 +11,7 @@
 
 <%= form_tag(:controller => "alternatives", :action => "task_num") do %>
 <span>
-	<%= collection_select(:alternative, :task_id, Task.all, :id, :name, {:selected => 88}) %>
+	<%= collection_select(:alternative, :task_id, Task.all, :id, :name) %>
 
 	<%= submit_tag "Выбрать задачу" %>
 </span>
@@ -25,7 +25,7 @@
 	    	<td><% t = Task.find(a.task_id) %></td>
 	    	<td><%= t.name %></td>
 	    	<td><%= link_to 'Редактировать', edit_alternative_path(a) %></td>
-	    	<td><%= link_to 'Выбрать', crit_values_path(a) %></td>
+	    	<td><%= link_to 'Выбрать', crit_values_path(a: a.id) %></td>
 	    </tr>
 	<% end %>
 </table>

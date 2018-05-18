@@ -29,10 +29,12 @@ class TasksController < ApplicationController
 			render 'new'
 		end
 
-		@root = Criterium.find(1) #общий родитель для всех коренных критериев
-		@ws_method_root = WsMethod.find(1) #WsMethod.first #выбрать отсутствие метода (под идентификатором 1)
-
-		@criterium = Criterium.create(task_id: @task.id, description: "Корень",  name: "Корень", criterium_id: @root.id, rank: 0, ismin: 0, idealvalue: 0, ws_method_id: @ws_method_root.id, ord: 0)
+		#@root = Criterium.find(1) #общий родитель для всех коренных критериев
+		#@ws_method_root = WsMethod.find(1) #WsMethod.first #выбрать отсутствие метода (под идентификатором 1)
+		
+		
+		@criterium = Criterium.new(task_id: @task.id, description: "Корень",  name: "Корень", criterium_id: 1, rank: 0, ismin: 0, idealvalue: 0, ws_method_id: 1, ord: 0)
+		@criterium.save
 
 	end
 
@@ -59,8 +61,15 @@ class TasksController < ApplicationController
 		redirect_to tasks_path
 	end
 
+
+
 	private
 	    def task_params
 	    	params.require(:task).permit(:name)
 	    end
+
+
+	#def taskid
+	#	return 1
+	#end
 end

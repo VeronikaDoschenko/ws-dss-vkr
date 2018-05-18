@@ -176,7 +176,7 @@
 	    </div>
 
 	    <div class="parent_select" align="left">
-		<%=  collection_select(:criterium, :criterium_id, Criterium.where("task_id = ? AND id != ?", @num_of_task, 1), :id, :name) %>
+		<%=  collection_select(:criterium, :criterium_id, Criterium.where("task_id = ? AND id != ?", params[:t], 1), :id, :name) %>
 	    </div>
 
 	    <div class="scale">
@@ -221,13 +221,15 @@
 	    	<%= text_field_tag :idealvalue %>
 	    </div>
 
+	   
+
 
       	<%= submit_tag "Добавить" %>
  
         <% end %>
 
 
-        <%= link_to 'Отмена', criteria_path %>
+        <%= link_to 'Отмена', criteria_path(t: params[:t]) %>
 
 	</div>
 </body>

@@ -10,21 +10,27 @@
 <h2>Дерево критериев</h2>
 
 
-<%= button_to 'Добавить критерий', new_criterium_path %> 
+<%= button_to 'Добавить критерий', new_criterium_path(t: @task_num) %> 
 
-<%= form_tag(:controller => "criteria", :action => "num_of_task") do %>
+<%= form_tag(:controller => "criteria", :action => "task_num") do %>
 <span>
-	<%= collection_select(:criterium, :task_id, Task.all, :id, :name) %>
+	<%= collection_select(:criterium, :task_id, Task.all, :id, :name, {:selected => @task_num}) %>
 
 	<%= submit_tag "Выбрать задачу" %>
 </span>
 <% end %>
 
+<label>Задача: </label>
+<% task = Task.find(@task_num) %>
+<%= task.name %>
+
 <table>
 	<% @criteria.each do |c| %>
 	    <tr>
 	    	<td><%= c.name %></td>
-	    	<td><%= link_to 'Выбрать', edit_criterium_path(c) %></td>
+	    	<td><label> , </label></td>
+	    	<td><%= c.task_id %></td>
+	    	<td><%= link_to 'Выбрать', edit_criterium_path(c, t: @task_num) %></td>
 	    </tr>
 	<% end %>
 </table>
