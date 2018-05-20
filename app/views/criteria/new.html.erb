@@ -188,7 +188,7 @@
     	</div>
 
 	    <div class="ismin_crit" align="right">
-		Наравление улучшений
+		Направление улучшений
 	    </div>
 
 	    <div class="ismin_select" align="left">
@@ -200,7 +200,8 @@
 		</div>
   
     	<div class="numeric_checkbox" align="left">
-		
+    	<%= hidden_field_tag :numeric, 'false' %>
+		<%= check_box_tag :numeric, true, :true %>
     	</div>
 
 	    <div class="ord_crit" align="right">
@@ -216,10 +217,10 @@
 	    	<%= collection_select(:criterium, :ws_method_id, WsMethod.all, :id, :name) %>
 	    </div>
 
-	    <div>
+	    <!--<div>
 	    	Идеальное значение
 	    	<%= text_field_tag :idealvalue %>
-	    </div>
+	    </div>-->
 
 	   
 

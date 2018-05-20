@@ -42,7 +42,7 @@ class CriteriaController < ApplicationController
 
 		@parent_crit = Criterium.find(params[:criterium][:criterium_id])
 
-		@criterium = Criterium.new(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord])
+		@criterium = Criterium.new(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord], numeric: params[:numeric])
 
 		if @criterium.save
 	    	redirect_to criteria_path(t: @parent_crit.task_id) #@criterium
@@ -58,7 +58,7 @@ class CriteriaController < ApplicationController
 
 		@criterium = Criterium.find(params[:id])
 
-		if @criterium.update(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord])
+		if @criterium.update(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord], numeric: params[:numeric])
 			redirect_to criteria_path(t: @parent_crit.task_id)
 		else
 			render 'edit'
@@ -155,3 +155,4 @@ class CriteriaController < ApplicationController
 
     
 end
+

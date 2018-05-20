@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180518172706) do
+ActiveRecord::Schema.define(version: 20180519204123) do
 
   create_table "alternatives", force: :cascade do |t|
     t.integer "task_id"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20180518172706) do
 
   create_table "criteria", force: :cascade do |t|
     t.integer "task_id"
-    t.text "description"
+    t.string "description"
     t.string "name"
     t.integer "criterium_id"
     t.decimal "rank"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20180518172706) do
     t.decimal "idealvalue"
     t.integer "ws_method_id"
     t.integer "ord"
+    t.boolean "numeric"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["criterium_id"], name: "index_criteria_on_criterium_id"

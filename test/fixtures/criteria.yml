@@ -2,7 +2,7 @@
 
 one:
   task: one
-  description: MyText
+  description: MyString
   name: MyString
   criterium: one
   rank: 9.99
@@ -10,10 +10,11 @@ one:
   idealvalue: 9.99
   ws_method: one
   ord: 1
+  numeric: false
 
 two:
   task: two
-  description: MyText
+  description: MyString
   name: MyString
   criterium: two
   rank: 9.99
@@ -21,3 +22,4 @@ two:
   idealvalue: 9.99
   ws_method: two
   ord: 1
+  numeric: false
