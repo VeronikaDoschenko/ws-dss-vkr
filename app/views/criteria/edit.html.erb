@@ -1,6 +1,6 @@
 <head>
 	<style>
-		.frame {
+.frame {
 			width: 700px; height: 100px;
 			background: /*#fc0*/white;
 			outline: 5px solid /*#000*/lightblue;
@@ -13,8 +13,9 @@
 			background: lightblue;
 			outline: 5px solid white;
 			border: 6px solid lightblue;
-			position: relative; /*может быть absolute*/
-			right: 180px;
+			float: left;
+			/*position: relative; 
+			right: 180px;*/
 		}
 
 		.name_field {
@@ -22,9 +23,10 @@
 			background: lightgrey;
 			outline: 5px solid white;
 			border: 6px solid lightgrey;
-			position: relative;
+			float: right;
+			/*position: relative;
 			left: 180px;
-			top: -38px;
+			top: -38px;*/
 		}
 
 		.description_crit {
@@ -32,9 +34,10 @@
 			background: lightblue;
 			outline: 5px solid white;
 			border: 6px solid lightblue;
-			position: relative;
+			float: left;
+			/*position: relative;
 			right: 180px;
-			top: -30px;
+			top: -30px;*/
 		}
 
 		.descroption_area {
@@ -42,9 +45,10 @@
 			background: lightgrey;
 			outline: 5px solid white;
 			border: 6px solid lightgrey;
-			position: relative;
+			float: right;
+			/*position: relative;
 			right: -180px;
-			top: -142px;
+			top: -142px;*/
 		}
 
 		.parent_crit {
@@ -52,9 +56,10 @@
 			background: lightblue;
 			outline: 5px solid white;
 			border: 6px solid lightblue;
-			position: relative;
+			float: left;
+			/*position: relative;
 			right: 180px;
-			top: -133px;
+			top: -133px;*/
 		}
 
 		.parent_select {
@@ -62,29 +67,32 @@
 			background: lightgrey;
 			outline: 5px solid white;
 			border: 6px solid lightgrey;
-			position: relative;
+			float: right;
+			/*position: relative;
 			right: -180px;
-			top: -171px;
+			top: -171px;*/
 		}
 
 		.scale {
-			width: 698px; height: 26px;
+			width: 689px; height: 26px;
 			background: lightblue;
 			outline: 5px solid white;
 			border: 6px solid lightblue;
-			position: relative;
+			float: left;
+			/*position: relative;
 			right: 5px;
-			top: -163px;
+			top: -163px;*/
 		}
 
 		.scale_desc {
-			width: 698px; height: 26px;
+			width: 689px; height: 26px;
 			background: lightgrey;
 			outline: 5px solid white;
 			border: 6px solid lightgrey;
-			position: relative;
+			float: left;
+			/*position: relative;
 			right: 5px;
-			top: -159px;
+			top: -159px;*/
 		}
 
 		.ismin_crit {
@@ -92,9 +100,10 @@
 			background: lightblue;
 			outline: 5px solid white;
 			border: 6px solid lightblue;
-			position: relative;
+			float: left;
+			/*position: relative;
 			right: 180px;
-			top: -150px;
+			top: -150px;*/
 		}
 
 		.ismin_select {
@@ -102,9 +111,10 @@
 			background: lightgrey;
 			outline: 5px solid white;
 			border: 6px solid lightgrey;
-			position: relative;
+			float: right;
+			/*position: relative;
 			right: -180px;
-			top: -188px;
+			top: -188px;*/
 		}
 
 		.numeric_crit {
@@ -112,9 +122,10 @@
 			background: lightblue;
 			outline: 5px solid white;
 			border: 6px solid lightblue;
-			position: relative;
+			float: left;
+			/*position: relative;
 			right: 180px;
-			top: -180px;
+			top: -180px;*/
 
 		}
 
@@ -123,9 +134,10 @@
 			background: lightgrey;
 			outline: 5px solid white;
 			border: 6px solid lightgrey;
-			position: relative;
+			float: right;
+			/*position: relative;
 			right: -180px;
-			top: -218px;
+			top: -218px;*/
 		}
 
 		.ord_crit {
@@ -133,9 +145,10 @@
 			background: lightblue;
 			outline: 5px solid white;
 			border: 6px solid lightblue;
-			position: relative;
+			float: left;
+			/*position: relative;
 			right: 180px;
-			top: -210px;
+			top: -210px;*/
 		}
 
 		.ord_field {
@@ -143,10 +156,20 @@
 			background: lightgrey;
 			outline: 5px solid white;
 			border: 6px solid lightgrey;
-			position: relative;
+			float: right;
+			/*position: relative;
 			right: -180px;
-			top: -248px;
+			top: -248px;*/
 		}
+
+		.scale_item {
+			width: 215px; height: 18px;
+			background: lightgrey;
+			float: left;
+			outline: 2px solid white;
+			border: 6px solid lightgrey;
+		}
+
 	</style>
 </head>
 <body>
@@ -172,6 +195,8 @@
 		<%=  text_area_tag :description, @criterium.description, size: "45x6"%>
 	    </div>
 
+	    <% crit_children = Criterium.where(criterium_id: @criterium.id).take %>
+	    <% if crit_children == nil %>
 	    <div class="parent_crit" align="right">
 		Родитель
 	    </div>
@@ -179,21 +204,35 @@
 	    <div class="parent_select" align="left">
 		<%=  collection_select(:criterium, :criterium_id, Criterium.where("task_id = ? AND id != ?", params[:t], 1), :id, :name) %>
 	    </div>
+	    <% end %>
 
 	    <div class="scale">
 	    Шкала
-	    <%= link_to 'Добавить пункт шкалы', criteria_crit_scale_path(c: @criterium.id) %>
+	    <%= link_to '+', criteria_crit_scale_path(c: @criterium.id), method: :get %>
     	</div>
 
-	    <div class="scale_desc">
-	    Шкала не заполнена
-		<% @crit_scale.each do |c| %>
-			<%= c.name %>
-			<%= c.rank.to_i %>
-			<%= link_to 'Удалить', criteria_crit_scale_destroy_path(c) %>
-		<% end %>
-		
-    	</div>
+        <% if CritScale.where(criterium_id: @criterium.id).take == nil %>
+        <div class="scale_desc">
+        	Шкала не заполнена
+        </div>
+        <% else %>
+        <table>
+        <% @crit_scale.each do |c| %>
+    		<tr>
+    			<td><div class="scale_item" align="center">
+    				<%= c.name %>
+    			</div></td>
+    			<td><div class="scale_item" align="center">
+    				<%= c.rank.to_i %>
+    			</div></td>
+    			<td><div class="scale_item" align="center">
+    				<%= link_to 'Удалить', criteria_crit_scale_destroy_path(c) %>
+    			</div></td>
+    		</tr>
+    	<% end %>
+    	</table>
+        <% end %>
+
 
 	    <div class="ismin_crit" align="right">
 		Наравление улучшений
@@ -203,13 +242,13 @@
 		<%= select(:criterium, :ismin, [['Чем больше, тем лучше', 1],['Чем меньше, тем лучше', 2],['Идельное значение', 3]]) %>
 	    </div>
 
-	    <div class="numeric_crit" align="right">
+	    <!--<div class="numeric_crit" align="right">
 		Числовой показатель 
 		</div>
   
     	<div class="numeric_checkbox" align="left">
-		
-    	</div>
+		<%= check_box_tag :numeric, @criterium.numeric %>
+    	</div>-->
 
 	    <div class="ord_crit" align="right">
 		Порядковый номер
@@ -224,16 +263,28 @@
 	    	<%= collection_select(:criterium, :ws_method_id, WsMethod.all, :id, :name) %>
 	    </div>
 
+
+
+	    <% if crit_children == nil %>
 	    <div align="right">
 	    <%= link_to 'Удалить критерий', criterium_path(@criterium.id), method: :delete%>
 	    </div>
+	    <% end %>
 
 
-        
-        <div>
-	    	Идеальное значение
-	    	<%= text_field_tag :idealvalue, @criterium.idealvalue %>
-	    </div>
+        <% if @criterium.ismin == 3 %>
+            <% if CritScale.where(criterium_id: @criterium.id).take == nil %>
+            <div>
+                Идеальное значение
+                <%= text_field_tag :idealvalue, @criterium.idealvalue %>
+	        </div>
+	        <% else %>
+	        <div>
+	    	    Идеальное значение
+	    	    <%= collection_select(:criterium, :rank, CritScale.where(criterium_id: @criterium.id).order(:rank), :id, :name) %>
+	        </div>
+	        <% end %>
+	    <% end %>
 
 
       	<%= submit_tag "Сохранить" %>

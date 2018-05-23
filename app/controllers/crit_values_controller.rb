@@ -7,7 +7,7 @@ class CritValuesController < ApplicationController
 		#@critvalues = CritValue.all
 
 		@alternative = Alternative.find(params[:a])
-		@criteria = Criterium.where("task_id = ? AND rank != ?", @alternative.task_id, 0)
+		@criteria = Criterium.where("task_id = ? AND level != ?", @alternative.task_id, 0)
 
 		#@critvalue = CritValue.new
 	end

@@ -13,6 +13,10 @@ class CriteriaController < ApplicationController
 			@task_num = task.id
 		end 
 
+		if params[:t]
+			@criteria_tree = criteria_tree(Criterium.find_by task_id: params[:t], level: 0)
+		end
+
 
 		@criteria = Criterium.where("criterium_id != ? AND task_id = ?", 1, @task_num)
 
@@ -42,7 +46,8 @@ class CriteriaController < ApplicationController
 
 		@parent_crit = Criterium.find(params[:criterium][:criterium_id])
 
-		@criterium = Criterium.new(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord], numeric: params[:numeric])
+
+ 		@criterium = Criterium.new(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, ismin: params[:criterium][:ismin], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord], level: @parent_crit.level + 1)
 
 		if @criterium.save
 	    	redirect_to criteria_path(t: @parent_crit.task_id) #@criterium
@@ -54,11 +59,22 @@ class CriteriaController < ApplicationController
 	end
 
 	def update
-		@parent_crit = Criterium.find(params[:criterium][:criterium_id])
+		#@parent_crit = Criterium.find(params[:criterium][:criterium_id])
 
 		@criterium = Criterium.find(params[:id])
 
-		if @criterium.update(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: @parent_crit.rank + 1, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord], numeric: params[:numeric])
+		if params[:criterium][:criterium_id]
+			@parent_crit = Criterium.find(params[:criterium][:criterium_id])
+		else
+			@parent_crit = Criterium.find(@criterium.criterium_id)
+		end
+
+		if params[:criterium][:rank]
+		crit_rank = CritScale.find(params[:criterium][:rank])
+		crit_rank = crit_rank.rank
+	    end
+
+		if @criterium.update(task_id: @parent_crit.task_id, description: params[:description], name: params[:name], criterium_id: @parent_crit.id, rank: crit_rank, ismin: params[:criterium][:ismin], idealvalue: params[:idealvalue], ws_method_id: params[:criterium][:ws_method_id], ord: params[:ord], level: @parent_crit.level + 1)
 			redirect_to criteria_path(t: @parent_crit.task_id)
 		else
 			render 'edit'
@@ -109,19 +125,13 @@ class CriteriaController < ApplicationController
 		redirect_to edit_criterium_path(@crit, t: @cr.task_id)
 	end
 
-    #исправить!!! номер задачи, для которой добавляются критерии
+    #номер задачи, для которой добавляются критерии
 	def task_num
 		@task = params[:criterium][:task_id]
 		redirect_to criteria_path(t: @task)
 
 		#return @task #@num_task
 	end
-
-
-   
-
-
-
 
 	private
 	    def criterium_params
@@ -134,24 +144,26 @@ class CriteriaController < ApplicationController
 
 
 
-	def crit_tree(taskid, rank)
+	def tree(criterium)
 		res = ""
-		rank = rank + 1
-		crit_array = Criterium.where("rank = ? AND task_id = ?", rank, taskid).order(:ord)
+		level = criterium.level + 1
+		crit_array = Criterium.where("level = ? AND task_id = ? AND criterium_id = ?", level, criterium.task_id, criterium.id).order(:ord)
 		crit_array.each do |cr|
-			res = "<li>#{cr.name}"
+			res << "<li>#{cr.name}"
+			res << "#{view_context.link_to 'Выбрать', edit_criterium_path(cr, t: @task_num) }"
 			res << "<ul>"
-			res << crit_tree(taskid, rank)
+			res << tree(cr)
 			res << "</ul>"
 			res << "</li>"
 		end
 		res
 	end
 
-    def tree(taskid, rank)
-    	"<ul>#{crit_tree(taskid, rank)}</ul>".html_safe
+    def criteria_tree(criterium)
+    	"<ul>#{tree(criterium)}</ul>".html_safe
     end
 
+    
 
     
 end

@@ -24,7 +24,7 @@
 <% task = Task.find(@task_num) %>
 <%= task.name %>
 
-<table>
+<!--<table>
 	<% @criteria.each do |c| %>
 	    <tr>
 	    	<td><%= c.name %></td>
@@ -33,7 +33,9 @@
 	    	<td><%= link_to 'Выбрать', edit_criterium_path(c, t: @task_num) %></td>
 	    </tr>
 	<% end %>
-</table>
+</table>-->
+
+<%= @criteria_tree %>
 
 
 
