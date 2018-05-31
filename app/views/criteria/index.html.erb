@@ -1,13 +1,106 @@
 <h1>Редактор критериев</h1>
 <hr>
 
-<p>
-	<%= link_to 'Настройка', tasks_path %> 
-	<%= link_to 'Критерии', criteria_path %>
-	<%= link_to 'Альтернативы', alternatives_path %>
-</p>
+<head>
+	<style>
+		.main_menu {
+			width: 180px; height: 800px;
+			background: /*#fc0*/white;
+			outline: 5px solid /*#000*/lightgrey;
+			border: 10px solid /*#fff*/white; /*отступ от рамки*/
+			float: left;
+		}
 
-<h2>Дерево критериев</h2>
+		.crit_tree {
+			width: 700px; height: 800px;
+			background: /*#fc0*/white;
+			outline: 5px solid /*#000*/lightgrey;
+			border: 10px solid /*#fff*/white; /*отступ от рамки*/
+			float: left;
+		}
+
+		.label_tree {
+			width: 500px; height: 50px;
+			background: /*#fc0*/white;
+			outline: 5px solid /*#000*/white;
+			border: 10px solid /*#fff*/white; /*отступ от рамки*/
+			float: left;
+		}
+
+		.add_crit {
+			width: 50px; height: 50px;
+			background: /*#fc0*/white;
+			outline: 5px solid /*#000*/white;
+			border: 10px solid /*#fff*/white; /*отступ от рамки*/
+			float: left;
+			position: relative;
+			/*left: 180px;*/
+			top: 20px;
+		}
+
+		.tree {
+			width: 680px; height: 50px;
+			background: /*#fc0*/white;
+			outline: 5px solid /*#000*/white;
+			border: 10px solid /*#fff*/white; /*отступ от рамки*/
+			clear: both;
+			
+		}
+	</style>
+</head>
+<body>
+	<div class="main_menu">
+	    <!--<div><%= link_to 'Настройка', tasks_path %></div>-->
+	    <ul>
+	    	<li><%= link_to 'Критерии', criteria_path %></li>
+	    	<li><%= link_to 'Альтернативы', alternatives_path %></li>
+	    </ul>
+	</div>
+
+	<div class="crit_tree">
+	    <table>
+	    <tr>
+	    <td>
+	    	<!--<label> Текущая задача: </label>
+	    	<% task = Task.find(@task_num) %>
+	    	<%= task.name %>-->
+	    </td>
+
+        <td>
+	    <%= form_tag(:controller => "criteria", :action => "task_num") do %>
+	    <span>
+	    <%= collection_select(:criterium, :task_id, Task.all, :id, :name, {:selected => @task_num}) %>
+		<%= submit_tag "Выбрать задачу" %>
+		</span>
+		<% end %>
+		</td>
+
+		</tr>
+		</table>
+
+		<hr>
+
+        <div class="label_tree" align="center">
+        	<h3>Дерево критериев</h3>
+        </div>
+
+        <div class="add_crit">
+            <%= button_to 'Добавить критерий', new_criterium_path(t: @task_num) %> 
+        </div>
+
+
+		<div class="tree"><%= @criteria_tree %></div>
+
+
+	</div>
+</body>
+
+
+	<!--<%= link_to 'Настройка', tasks_path %>
+	<%= link_to 'Критерии', criteria_path %>
+	<%= link_to 'Альтернативы', alternatives_path %>-->
+
+<!--<h2>Дерево критериев</h2>
 
 
 <%= button_to 'Добавить критерий', new_criterium_path(t: @task_num) %> 
@@ -24,7 +117,7 @@
 <% task = Task.find(@task_num) %>
 <%= task.name %>
 
-<!--<table>
+<table>
 	<% @criteria.each do |c| %>
 	    <tr>
 	    	<td><%= c.name %></td>
@@ -33,10 +126,9 @@
 	    	<td><%= link_to 'Выбрать', edit_criterium_path(c, t: @task_num) %></td>
 	    </tr>
 	<% end %>
-</table>-->
+</table>
 
-<%= @criteria_tree %>
-
+<%= @criteria_tree %>-->
 
 
 

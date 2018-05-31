@@ -38,6 +38,20 @@ class AlternativesController < ApplicationController
 		end
 	end
 
+	def destroy
+		@alternative = Alternative.find(params[:id])
+
+		@critvalue = CritValue.where(alternative_id: @alternative.id)
+
+		@critvalue.each do |cv|
+			cv.destroy
+		end
+
+		@alternative.destroy
+
+		redirect_to alternatives_path
+	end
+
 
 	def task_num
 	  @task = params[:alternative][:task_id]

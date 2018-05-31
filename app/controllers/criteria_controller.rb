@@ -6,6 +6,14 @@ class CriteriaController < ApplicationController
 
         # не выводит "коренные" критерии
 
+        @tasks = Task.all
+        @tasks.each do |task|
+        	if Criterium.where(task_id: task.id).take == nil
+        		#@crit_root = Criterium.new(task_id: task.id, name: "Корень", criterium_id: 1, ws_method_id: 1, level: 0)
+        		#@crit_root.save
+        	end
+        end
+
 		if params[:t] # если параметр t определен
 			@task_num = params[:t] # передаем параметр t
 		else
@@ -13,9 +21,8 @@ class CriteriaController < ApplicationController
 			@task_num = task.id
 		end 
 
-		if params[:t]
-			@criteria_tree = criteria_tree(Criterium.find_by task_id: params[:t], level: 0)
-		end
+		@criteria_tree = criteria_tree(Criterium.find_by task_id: @task_num, level: 0)
+
 
 
 		@criteria = Criterium.where("criterium_id != ? AND task_id = ?", 1, @task_num)
@@ -163,8 +170,9 @@ class CriteriaController < ApplicationController
     	"<ul>#{tree(criterium)}</ul>".html_safe
     end
 
-    
+    #def children_tree(criterium)
+   # 	crit_array = crit_array + Criterium.where("task_id != ? AND criterium_id = ?")
+    #end
 
-    
 end
 

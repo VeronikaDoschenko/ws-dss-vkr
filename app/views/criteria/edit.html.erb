@@ -202,13 +202,13 @@
 	    </div>
 
 	    <div class="parent_select" align="left">
-		<%=  collection_select(:criterium, :criterium_id, Criterium.where("task_id = ? AND id != ?", params[:t], 1), :id, :name) %>
+		<%=  collection_select(:criterium, :criterium_id, Array.wrap(Criterium.where("task_id = ? AND id != ?", params[:t], 1)), :id, :name) %>
 	    </div>
 	    <% end %>
 
 	    <div class="scale">
 	    Шкала
-	    <%= link_to '+', criteria_crit_scale_path(c: @criterium.id), method: :get %>
+	    <%= link_to image_tag("AddCritScale.jpeg"), criteria_crit_scale_path(c: @criterium.id), method: :get %>
     	</div>
 
         <% if CritScale.where(criterium_id: @criterium.id).take == nil %>
@@ -264,10 +264,10 @@
 	    </div>
 
 
-
+        <% crit_children = Criterium.where(criterium_id: @criterium.id).take %>
 	    <% if crit_children == nil %>
 	    <div align="right">
-	    <%= link_to 'Удалить критерий', criterium_path(@criterium.id), method: :delete%>
+	    <%= link_to 'Удалить критерий', criterium_path(@criterium.id), method: :delete, data: {confirm: 'Вы уверены, что хотите удалить критерий?'}%>
 	    </div>
 	    <% end %>
 

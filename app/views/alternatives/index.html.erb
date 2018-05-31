@@ -25,6 +25,7 @@
 	    	<td><% task = Task.find(a.task_id) %></td>
 	    	<td><%= task.name %></td>
 	    	<td><%= link_to 'Редактировать', edit_alternative_path(a) %></td>
+	    	<td><%= link_to 'Удалить', alternative_path(a), method: :delete, data: {confirm: 'Вы уверены, что хотите удалить альтернативу?'} %></td>
 	    	<td><%= link_to 'Выбрать', crit_values_path(a: a.id) %></td>
 	    </tr>
 	<% end %>
